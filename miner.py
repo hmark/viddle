@@ -74,9 +74,6 @@ for post in db.sites.find():
 
 					logger.log("####NEW")
 					logger.log("url: " + article)
-					logger.log("video: " + crawler.video)
-					logger.log("title: " + crawler.title)
-					logger.log("text: " + crawler.texts)
 				else:
 					db.links.insert({"url":article})
 

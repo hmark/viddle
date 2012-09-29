@@ -35,7 +35,6 @@ class Whoosh:
 		self.commit()
 
 	def add_document(self, url, video, title, body):
-		print("add_document", url, video, title)
 		self.writer.add_document(url=url, video=video, title=title, body=body)
 
 	def commit(self):
