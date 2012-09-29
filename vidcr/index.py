@@ -13,11 +13,12 @@ class Whoosh:
 	def init(self):
 		schema = Schema(url=ID(stored=True, unique=True), video=ID(stored=True, unique=True), title=TEXT(field_boost=5.0, stored=True), body=TEXT(vector=True, stored=True))
 
-		if not os.path.exists("index"): # create new index if it does not exist yet
-			os.mkdir("index")
-			self.index = create_in("index", schema)
+		pathname = os.path.dirname(__file__) + "/index"
+		if not os.path.exists(pathname): # create new index if it does not exist yet
+			os.mkdir(pathname)
+			self.index = create_in(pathname, schema)
 
-		self.index = open_dir("index")
+		self.index = open_dir(pathname)
 		self.writer = self.index.writer()
 
 	def load(self):
