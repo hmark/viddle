@@ -1,0 +1,20 @@
+########
+INFORMATION
+########
+Name:		Viddle 
+Info:		Video Search Web Application
+Author:		hlavko (Mark Hlavac)
+License:	Creative Commons Attribution-ShareAlike 3.0 Unported License.
+
+########
+HOW TO USE
+########
+
+1. change set of crawling sites in ./conf/sites.dat where e.g.:
+http://tv.sme.sk /v/ sme.sk
+
+http://tv.sme.sk 		- URL where we will find <a> tags and search in these pages for video content to the depth 1
+/v/ 					- regexp for parsing urls with video content
+sme.sk 					- name of crawling method (sites have different methods for accessing content)
+
+2. 
