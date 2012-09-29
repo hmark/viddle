@@ -10,7 +10,14 @@ class Query:
 
 		with self.whoosh.index.searcher() as s:
 			results = s.search(query)
-			roll = str(results.top_n) + "<br>"
+			results_len = len(results)
+
+			if results_len == 0:
+				roll = "This search did not match any documents."
+			else:
+				roll = "Results: <b>" + str(results_len) + "</b><br>"
+				roll += str(results.top_n) + "<br>"
+
 			print(results.top_n)
 			for result in results:
 				#print(result.highlights("title"))

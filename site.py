@@ -2,34 +2,39 @@ import sys
 import cherrypy
 import search
 
-PORT = 8080
-#PORT = 32108
-
-class SearchPage(object):
-	def index(self, term=None):
-		page = "Searched term: <b>" + term + "</b><br>"
-		query = search.Query()
-		page += query.search_term(term)
-		#print(page, term)
-
-		return page
-	index.exposed = True
-
-	def foo(self):
-		return 'Foo!'
-	foo.exposed = True
+PRODUCTION = True
 
 class RootPage(object):
-	search = SearchPage()
+	def index(self, term=None):
+		return self.search_form()
 
-	def index(self):
-		return "<b>Hello World!</b>"
+	def search(self, term=None):
+		page = self.search_form() + "<br>"
+
+		if term != None:
+			page += "Searched term: <b>" + term + "</b><br>"
+			query = search.Query()
+			page += query.search_term(term)
+
+		return page
+
+	def search_form(self):
+		return "<form action='search' method='get'>\
+			<p>Viddle - video search</p>\
+			<input type='text' name='term' value='' size='15' maxlength='30'/>\
+			<input type='submit' value='Search'/></p>\
+			</form>"
+
+	search.exposed = True
 	index.exposed = True
 
-#cherrypy.config.update({
-#'environment': 'production',
-#'log.screen': False,
-#'server.socket_host': '127.0.0.1',
-#'server.socket_port': PORT
-#})
+if PRODUCTION:
+	print("starting production mode...")
+	cherrypy.config.update({
+	'environment': 'production',
+	'log.screen': False,
+	'server.socket_host': '127.0.0.1',
+	'server.socket_port': 32108
+	})
+
 cherrypy.quickstart(RootPage())
