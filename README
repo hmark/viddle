@@ -1,10 +1,14 @@
-<b>INFORMATION</b>
+##########
+INFORMATION
+##########
 Name:		Viddle 
 Info:		Video Search Web Application
 Author:		hlavko (Mark Hlavac)
 License:	Creative Commons Attribution-ShareAlike 3.0 Unported License.
 
-<b>HOW TO USE</b>
+##########
+HOW TO USE
+##########
 
 1. change set of crawling sites in ./conf/sites.dat where e.g.:
 <URL> <REGEXP> <CRAWLER>
@@ -20,9 +24,9 @@ python miner.py
 
 notes: search index is created only at first launch
 
-4. check logs in directory ./logs
+4. check logs in directory ./logs if everything is OK
 
-5. start searching in index:
+5. start searching in index by creating simple .py script:
 
 from viddle import search
 
