@@ -1,13 +1,18 @@
 import sys
 import cherrypy
-import vidcr.index
+import search
 
 PORT = 8080
 #PORT = 32108
 
 class SearchPage(object):
 	def index(self, term=None):
-		return "You want to search " + term
+		page = "Searched term: <b>" + term + "</b><br>"
+		query = search.Query()
+		page += query.search_term(term)
+		#print(page, term)
+
+		return page
 	index.exposed = True
 
 	def foo(self):
