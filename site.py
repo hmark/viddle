@@ -1,5 +1,6 @@
 import sys
 import cherrypy
+import vidcr.index
 
 PORT = 8080
 #PORT = 32108
