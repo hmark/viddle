@@ -11,6 +11,7 @@ class RegexCrawler:
 	def crawl(self, url):
 		self.url = url
 		self.video = None
+		self.name = None
 		self.title = None
 		self.texts = None
 
@@ -29,7 +30,27 @@ class RegexCrawler:
 					self.video = parsed_vid
 					break				
 				
-			self.title = parser.title
+			self.name = parser.title
+			self.title = list(self.name)
+			self.title.extend(self.get_derived_data(self.title)) # special characters duplication
 			self.texts = parser.texts
+			self.texts.extend(self.get_derived_data(self.texts)) # special characters duplication
+
+			#print(self.name, self.title)
+			#print(self.texts)
 		else:
 			raise Exception("Error: requested URL ", url, " return status code: ", req.status)
+
+	def get_derived_data(self, words):
+		derived = []
+		pattern = re.compile(r'[áäčďéíĺľňóôŕšťúýž]')
+		trans_table = str.maketrans("áäčďéíĺľňóôŕřšťúýž", "aacdeillnoorrstuyz")
+
+		for word in words:
+			for s_word in word.split():
+				if pattern.findall(s_word):
+					derived_word = s_word.translate(trans_table)
+					derived.append(derived_word)
+
+		print(derived)
+		return derived

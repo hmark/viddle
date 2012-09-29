@@ -1,5 +1,6 @@
 import vidcr.index
 from whoosh.qparser import MultifieldParser
+#from whoosh.query import Every
 
 class Query:
 
@@ -24,8 +25,19 @@ class Query:
 				#roll += str(result)
 				#roll += "<br>"
 				#print(result)
-				roll += "<a href='" + str(result["url"]) + "'>" + str(result["title"]) + "</a><br>"
+				roll += "<a href='" + str(result["url"]) + "'>" + str(result["name"]) + "</a><br>"
 				#print(result["title"])
 				#print(result["body"])
 
 		return roll
+
+
+	def showAll(self):
+		self.whoosh = vidcr.index.Whoosh()
+		reader = self.whoosh.index.reader()
+		results = reader.all_terms()
+		for result in results:
+			print(result)
+
+#q = Query()
+#q.showAll()

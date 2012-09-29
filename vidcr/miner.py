@@ -66,11 +66,13 @@ for post in db.sites.find():
 				if crawler.video is not None:
 					texts_len = len(crawler.texts)
 					titles_len = len(crawler.title)
-					crawler.texts = ''.join(crawler.texts[0:texts_len])
-					crawler.title = ''.join(crawler.title[0:titles_len])
+					name_len = len(crawler.name)
+					crawler.name = ' '.join(crawler.name[0:name_len])
+					crawler.texts = ' '.join(crawler.texts[0:texts_len])
+					crawler.title = ' '.join(crawler.title[0:titles_len])
 
 					db.links.insert({"url":article, "video":crawler.video, "title":crawler.title, "texts": crawler.texts})
-					whoosh.add_document(article, crawler.video, crawler.title, crawler.texts)
+					whoosh.add_document(article, crawler.video, crawler.name, crawler.title, crawler.texts)
 
 					logger.log("new video url: " + article)
 				else:
@@ -78,7 +80,6 @@ for post in db.sites.find():
 					logger.log("new non-video url: " + article)
 
 		whoosh.commit()
-
 	else:
 		raise Exception("Error: requested URL ", url, "return status code: ", req.status)
 
