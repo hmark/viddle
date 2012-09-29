@@ -72,10 +72,10 @@ for post in db.sites.find():
 					db.links.insert({"url":article, "video":crawler.video, "title":crawler.title, "texts": crawler.texts})
 					whoosh.add_document(article, crawler.video, crawler.title, crawler.texts)
 
-					logger.log("####NEW")
-					logger.log("url: " + article)
+					logger.log("new video url: " + article)
 				else:
 					db.links.insert({"url":article})
+					logger.log("new non-video url: " + article)
 
 		whoosh.commit()
 
