@@ -1,20 +1,30 @@
-########
-INFORMATION
-########
+<b>INFORMATION</b>
 Name:		Viddle 
 Info:		Video Search Web Application
 Author:		hlavko (Mark Hlavac)
 License:	Creative Commons Attribution-ShareAlike 3.0 Unported License.
 
-########
-HOW TO USE
-########
+<b>HOW TO USE</b>
 
 1. change set of crawling sites in ./conf/sites.dat where e.g.:
-http://tv.sme.sk /v/ sme.sk
+<URL> <REGEXP> <CRAWLER>
 
-http://tv.sme.sk 		- URL where we will find <a> tags and search in these pages for video content to the depth 1
-/v/ 					- regexp for parsing urls with video content
-sme.sk 					- name of crawling method (sites have different methods for accessing content)
+<URL> 		- URL where we will try to find our video content
+<REGEXP>	- regexp anchor tags filter for concrete site
+<CRAWLER>	- name of crawling method (sites have different methods for accessing video)
 
-2. 
+2. change mongodb access in ./conf/db.conf
+
+3. start mining by:
+python miner.py
+
+notes: search index is created only at first launch
+
+4. check logs in directory ./logs
+
+5. start searching in index:
+
+from viddle import search
+
+query = search.Query()
+query.search_term("hello")
