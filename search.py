@@ -25,7 +25,7 @@ class Query:
 
 		data = []
 		for result in db.links.find({ "video": {"$exists": "true"}, "title": {"$exists": "true"}}).sort("_id", -1).limit(count):
-			data.append([result["url"], result["title"], result["date"], result["time"], result["video"][0]])
+			data.append([result["url"], result["name"], result["date"], result["time"], result["video"][0]])
 
 		return data
 
