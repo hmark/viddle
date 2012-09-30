@@ -9,7 +9,7 @@ class Logger:
 		self.f = open(os.path.dirname(__file__) + "/logs/" + filename + ".log", "w")
 		
 	def get_actual_datetime(self):
-		return datetime.now().strftime("%Y-%m-%d.%I-%M%p")
+		return datetime.now().strftime("%Y-%m-%d.%H-%M")
 
 	def log(self, text):
 		self.f.write(text + "\n")
