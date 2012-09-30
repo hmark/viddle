@@ -72,8 +72,8 @@ for post in db.sites.find():
 
 					dt = datetime.now()
 					date = dt.strftime("%d.%m.%Y")
-					time = time.strftime("%H:%M")
-					db.links.insert({"url":article, "video":crawler.video, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
+					time = dt.strftime("%H:%M")
+					db.links.insert({"url":article, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
 					whoosh.add_document(article, crawler.video, crawler.name, crawler.title, crawler.texts)
 
 					logger.log("new video url: " + article)

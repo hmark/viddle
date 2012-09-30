@@ -1,56 +1,35 @@
 import sys
 import cherrypy
 import search
+from mako.template import Template
+from mako.lookup import TemplateLookup
 
-PRODUCTION = False
+CONFIG = './conf/dev.conf'
+#CONFIG = './conf/prod.conf'
+
+tmpl_lookup = TemplateLookup(directories=['./templates'], module_directory='./tmp/mako_modules', input_encoding='utf-8', output_encoding='utf-8')
 
 class RootPage(object):
+
 	def index(self, term=None):
-		return self.header() + self.search_form() + self.footer()
+		tmpl = tmpl_lookup.get_template("index.mako")
+
+		query = search.Query()
+		
+		return tmpl.render_unicode(term=None, data=None, length=-1, newest=query.get_newest(5))
 
 	def search(self, term=None):
-		print(term)
-		page = self.header() + self.search_form() + "<br>"
-
+		tmpl = tmpl_lookup.get_template("index.mako")
+		
+		length = 0
 		if term != None:
-			page += "Searched term: <b>" + term + "</b><br>"
 			query = search.Query()
-			page += query.search_term(term)
+			data = query.search_term(term)
+			length = len(data)
 
-		page += self.footer()
-
-		return page
-
-	def header(self):
-		return "<html lang='en'>\
-    		<head>\
-        		<meta charset='utf-8' /> \
-        		<title>Viddle</title>\
-        	</head>\
-        	<body>"
-
-	def footer(self):
-		return "</body>\
-			</html>"
-
-	def search_form(self):
-		return "<form action='search' method='post' accept-charset='utf-8'>\
-			<p>Viddle - video search</p>\
-			<input type='text' name='term' value='' size='15' maxlength='30'/>\
-			<input type='submit' value='Search'/></p>\
-			</form>"
+		return tmpl.render_unicode(term=term, data=data, length=length, newest=query.get_newest(5))
 
 	search.exposed = True
 	index.exposed = True
 
-if PRODUCTION:
-	print("starting production mode...")
-	cherrypy.config.update({
-	'engine.autoreload_on': True,
-	'environment': 'production',
-	'log.screen': False,
-	'server.socket_host': '127.0.0.1',
-	'server.socket_port': 32108
-	})
-
-cherrypy.quickstart(RootPage())
+cherrypy.quickstart(RootPage(), '/', CONFIG)

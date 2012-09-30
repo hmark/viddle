@@ -52,5 +52,5 @@ class RegexCrawler:
 					derived_word = s_word.translate(trans_table)
 					derived.append(derived_word)
 
-		print(derived)
+		#print(derived)
 		return derived
