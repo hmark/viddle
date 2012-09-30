@@ -38,7 +38,8 @@
                     %>
                          
                     % if term != None:
-                        <div>Searched term: <b>${term}</b></div><br>
+                        <br>
+                        <div>Searched term: <b>${term}</b></div>
                     % endif
                     
                     % if length == -1:
@@ -46,7 +47,7 @@
                     % elif length == 0:
                         <p class='error'>This search did not match any documents.</p>
                     % else:
-                        <div><b>RESULTS: ${length}</b></div><br>
+                        <div>Results: ${length}</div><br>
                     %    for item in data:
                              <div>
                                 <a href="${item[0]}">${item[1]}</a>  (score: ${item[2]})
