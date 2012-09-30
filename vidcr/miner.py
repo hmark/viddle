@@ -56,7 +56,7 @@ for post in db.sites.find():
 			crawler.set_regex("iframe","http://www.youtube.com/embed/[0-9A-Za-z_-]{11}")
 		elif post["crawler"] == "ted.com":
 			crawler = crawl.RegexCrawler()
-			crawler.set_regex("a", "http://download.ted.com/talks/.*\.mp4")
+			crawler.set_regex("input", "http://video.ted.com/talk/stream/.*\.mp4")
 
 		for article in articles:
 			#print(db.links.find({"url":article}).count(), article)
