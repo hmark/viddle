@@ -8,17 +8,17 @@
      <body>
         <div id="container">
             <div id="header">
-                <h1>Viddle</h1>
-                <h2>Video search app</h2>
+                <div id="logo"></div>
+                <div id="subtitle"><h2>web video syndicator</h2></div>
+                <div id="search">
+                    <form class="searchform" action='search' method='get' accept-charset='utf-8'>\
+                        <input class="searchfield" type='text' name='term' value='' size='30' maxlength='30' placeholder="Find your video..."/>\
+                        <input class="searchbutton" type='submit' value=''/></p>\
+                    </form>
+                </div>
             </div>
             <div id="left_col">
-                <div id="search">
-                    <form action='search' method='get' accept-charset='utf-8'>\
-                        <input type='text' name='term' value='' size='15' maxlength='30'/>\
-                        <input type='submit' value='Search'/></p>\
-                    </form>
-                    <p class='supported'>Supported video sites: <b>tv.sme.sk</b>, <b>ted.com</b>, <b>sme.sk</b> (partially)</p>
-                </div>
+                
                 
                 <div id="results">
                     <%!
@@ -43,7 +43,7 @@
                     % endif
                     
                     % if length == -1:
-                        <p class='examples'>Examples of keywords: <b>matovič</b>, <b>internet</b>, <b>nikto</b>, <b>slovensky</b>...</p>
+                        
                     % elif length == 0:
                         <p class='error'>This search did not match any documents.</p>
                     % else:

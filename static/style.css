@@ -3,13 +3,45 @@
 	padding: 0;
 }
 
+body{
+    margin-top: 25px;
+    background: #f5f5f5;
+    font: 12px Arial, sans-serif;
+}
+
 #container {
    width:1000px;
    margin:0 auto;
 }
 
 #header{
+    height:150px;
+    margin-bottom: 80px;
+}
+
+#logo{
+    margin: 0px auto;
+    background-image:url("viddle_logo.png");
+    width:388px;
     height:100px;
+}
+
+#subtitle{
+    margin: 0px auto;
+    width:205px;
+    padding-bottom: 25px;
+}
+
+#subtitle h2{
+    font-size: 20px;
+    color: rgba(0,0,0,0.7);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+#search{
+    margin: 0px auto;
+    width: 400px;
+    padding-left:5px;
 }
 
 #left_col {
@@ -20,4 +52,44 @@
 #right_col {
     float:right;
     width:500px;
+}
+
+.searchform {
+	display: inline-block;
+	border: solid 1px #d2d2d2;
+	padding: 5px 5px;
+
+	-webkit-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+	-moz-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+	box-shadow: 0 1px 0px rgba(0,0,0,.1);
+
+	background: #f1f1f1;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+	background: -moz-linear-gradient(top,  #fff,  #ededed);
+}
+
+.searchform input {
+	font-size: 24px;
+}
+
+.searchform .searchfield {
+	background: #fff;
+	padding: 1px 0px 2px 8px;
+	width: 350px;
+	border: solid 1px #bcbbbb;
+	outline: none;
+    
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+}
+
+.searchform .searchbutton {
+    background-image:url("search.png");
+	border: solid 1px #494949;
+    
+    height: 32px;
+	width: 32px;
+    
+    cursor: pointer;
 }
