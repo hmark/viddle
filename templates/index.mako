@@ -21,6 +21,22 @@
                 </div>
                 
                 <div id="results">
+                    <%!
+                        import re
+                            
+                        def is_youtube(text):
+                            return re.match(r"^http://www.youtube.com", text)
+                            
+                        def is_tvsme(text):
+                            return re.match(r"^http://i.sme.sk/datamm", text)
+                            
+                        def parse_tvsme_video_id(text):
+                            return re.findall(r"[0-9]{5}", text)[0]
+                            
+                        def is_ted(text):
+                            return re.match(r"^http://video.ted.com", text);
+                    %>
+                         
                     % if term != None:
                         <div>Searched term: <b>${term}</b></div><br>
                     % endif
@@ -33,10 +49,34 @@
                         <div><b>RESULTS: ${length}</b></div><br>
                     %    for item in data:
                              <div>
-                                <a href="${item[0]}">${item[1]}</a><br>
-                                <a href="${item[3]}">VIDEO</a> (score: ${item[2]})
+                                <a href="${item[0]}">${item[1]}</a>  (score: ${item[2]})
+                                % if is_youtube(item[3]):
+                                    <iframe width="400" height="300" src="${item[3]}" frameborder="0" allowfullscreen=""></iframe>
+                                % elif is_ted(item[3]):
+                                    <embed 
+                                        src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" 
+                                        pluginspace="http://www.macromedia.com/go/getflashplayer" 
+                                        type="application/x-shockwave-flash"
+                                        wmode="transparent" 
+                                        bgColor="#ffffff" 
+                                        width="400" 
+                                        height="300"
+                                        allowFullScreen="true" 
+                                        allowScriptAccess="always" 
+                                        flashvars="vu=${item[3]}&vw=385&amp;vh=215">
+                                    </embed>
+                                % elif is_tvsme(item[3]):
+                                <%
+                                    video_id = parse_tvsme_video_id(item[3])
+                                %>
+                                    <iframe width="400" height="300" border="0" frameborder="0" scrolling="no" style="padding:0px; margin:0px; border: 0px;" src="http://www.sme.sk/vp/${video_id}/"></iframe>
+                                % else:
+                                    <video width="400" height="300" controls>
+                                        <source src="${item[3]}" type='video/mp4' />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                % endif
                             </div>
-                            <br>
                     %    endfor
                     % endif
                 </div>
@@ -47,8 +87,7 @@
                 <div id="newest">
                     % for item in newest:
                         <div>
-                            <a href='${item[0]}'>${item[1]}</a><br>
-                            <a href="${item[4]}">VIDEO</a> (${item[2]}, ${item[3]})
+                            <a href='${item[0]}'>${item[1]}</a> (${item[2]} ${item[3]})<br>
                         </div>
                         <br>
                     % endfor
