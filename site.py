@@ -4,8 +4,8 @@ import search
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-#CONFIG = './conf/dev.conf'
-CONFIG = './conf/prod.conf'
+CONFIG = './conf/dev.conf'
+#CONFIG = './conf/prod.conf'
 
 tmpl_lookup = TemplateLookup(directories=['./templates'], module_directory='./tmp/mako_modules', input_encoding='utf-8', output_encoding='utf-8')
 
