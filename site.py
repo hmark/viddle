@@ -16,7 +16,7 @@ class RootPage(object):
 
 		query = search.Query()
 		
-		return tmpl.render_unicode(term=None, data=None, length=-1, newest=query.get_newest(5))
+		return tmpl.render_unicode(term=None, data=None, length=-1, newest=query.get_newest(5), help=False)
 
 	def search(self, term=None):
 		tmpl = tmpl_lookup.get_template("index.html")
@@ -27,9 +27,14 @@ class RootPage(object):
 			data = query.search_term(term)
 			length = len(data)
 
-		return tmpl.render_unicode(term=term, data=data, length=length, newest=query.get_newest(5))
+		return tmpl.render_unicode(term=term, data=data, length=length, newest=query.get_newest(5), help=False)
+
+	def help(self):
+		tmpl = tmpl_lookup.get_template("index.html")
+		return tmpl.render_unicode(term=None, data=None, length=None, newest=None, help=True)
 
 	search.exposed = True
 	index.exposed = True
+	help.exposed = True
 
 cherrypy.quickstart(RootPage(), '/', CONFIG)
