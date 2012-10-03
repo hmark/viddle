@@ -26,7 +26,7 @@ for post in db.sites.find():
 	url = post["site"]
 	regex = post["regex"]
 	response = urllib.request.urlopen(url)
-	#whoosh = index.Whoosh()
+	whoosh = index.Whoosh()
 
 	print("Mining site:", url)
 
@@ -68,16 +68,16 @@ for post in db.sites.find():
 					dt = datetime.now()
 					date = dt.strftime("%d.%m.%Y")
 					time = dt.strftime("%H:%M")
-					print("insert", article, crawler.video, crawler.name)
-					#db.links.insert({"url":article, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
-					#whoosh.add_document(article, crawler.video, crawler.name, crawler.title, crawler.texts)
+					#print("insert", article, crawler.video, crawler.name)
+					db.links.insert({"url":article, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
+					whoosh.add_document(article, crawler.video, crawler.name, crawler.title, crawler.texts)
 
 					logger.log("new video url: " + article)
 				else:
-					#db.links.insert({"url":article})
+					db.links.insert({"url":article})
 					logger.log("new non-video url: " + article)
 
-		#whoosh.commit()
+		whoosh.commit()
 	else:
 		raise Exception("Error: requested URL ", url, "return status code: ", req.status)
 
