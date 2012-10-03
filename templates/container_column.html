@@ -1,0 +1,14 @@
+<div id="column">
+                
+    <div id="results">
+        
+        % if length == -1:
+           <%include file="container_newest.html"/>
+        % elif length == 0:
+            <div id='empty_search'>This search did not match any documents.</div>
+        % else:
+            <%include file="container_search.html"/>
+        % endif
+                
+    </div>
+</div>

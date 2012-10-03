@@ -1,5 +1,6 @@
 import vidcr.index
 import vidcr.dbase
+import re
 from whoosh.qparser import MultifieldParser
 #from whoosh.query import Every
 
@@ -16,7 +17,15 @@ class Query:
 			results_len = len(results)
 
 			for result in results:
-				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0]])
+				s_tags = s.key_terms([result.docnum], "body", 5)
+
+				tags = []
+				for tag in s_tags:
+					if len(tag[0]) > 4 and not re.match(r"[0-9]", tag[0]):
+						tags.append(tag[0])
+				
+
+				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], tags])
 
 		return data
 
@@ -37,4 +46,4 @@ class Query:
 			print(result)
 
 #q = Query()
-#q.showAll()
+#print(q.search_term("internet"))

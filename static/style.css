@@ -10,18 +10,18 @@ body{
 }
 
 #container {
-   width:1000px;
+   width:100%;
    margin:0 auto;
 }
 
 #header{
     height:150px;
-    margin-bottom: 80px;
+    margin-bottom: 100px;
 }
 
 #logo{
     margin: 0px auto;
-    background-image:url("viddle_logo.png");
+    
     width:388px;
     height:100px;
 }
@@ -42,16 +42,6 @@ body{
     margin: 0px auto;
     width: 400px;
     padding-left:5px;
-}
-
-#left_col {
-    float:left;
-    width:500px;
-}
-
-#right_col {
-    float:right;
-    width:500px;
 }
 
 .searchform {
@@ -92,4 +82,151 @@ body{
 	width: 32px;
     
     cursor: pointer;
+}
+
+#latest{
+    width: 600px;
+    margin: 0px auto;
+    
+}
+
+#latest h3, #results h3{
+    text-align: center;
+    font-size: 20px;
+    color: rgba(0,0,0,0.7);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    text-transform:uppercase;
+    border-bottom: 1px solid #DDD;
+    padding-bottom: 5px;
+}
+
+.left_col{
+    clear:both;
+    float:left;
+}
+
+.right_col{
+    float:right;
+}
+
+.latest_video{
+    padding: 10px 10px 0 10px;
+    border-bottom: 1px solid #DDD;
+}
+
+.latest_video a{
+    font-size: 16px;
+    color: #333;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    text-decoration: none;
+    font-weight:bold;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}
+
+.latest_video a:hover{
+    text-decoration: underline;
+    color: #1C62B9;
+}
+
+.site{
+   font-size: 16px;
+    color: #333;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    font-weight:bold;
+    font-style: italic;
+}
+
+.date{
+    font-size: 12px;
+    color: #999;
+    clear:both;
+    text-align:right;
+}
+
+#empty_search{
+    width: 100%;
+    margin: 0px auto;
+    font-size: 16px;
+    color: #ff6347;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    text-decoration: none;
+    font-weight:bold;
+    clear:both;
+    text-align:center;
+}
+
+#results{
+    width: 500px;
+    margin: 0px auto;
+}
+
+.result{
+    padding: 30px 0 30px 0;
+    width: 490px;
+    border-bottom: 1px solid #CCC;
+}
+
+.video{
+    text-align:center;
+    margin: 10px 0 0 0;
+}
+
+.title a{
+    font-size: 16px;
+    color: #333;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    text-decoration: none;
+    font-weight:bold;
+    clear:both;
+    text-align:center;
+}
+
+.title a:hover{
+    text-decoration: underline;
+    color: #1C62B9;
+}
+
+.score{
+    font-size: 12px;
+    color: #999;
+    clear:both;
+    text-align:left;
+    width: 100%;
+}
+
+.tags{
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.tags a{
+    font-size: 12px;
+    color: #333;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    text-decoration: none;
+    font-weight:bold;    
+}
+
+.tags a:hover{
+    text-decoration: underline;
+    color: #1C62B9;
+}
+
+.button{
+    text-align:center;
+    font-size: 14px;
+    color: #333;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    text-decoration: none;
+    font-weight:bold;
+    width: 100%;
+    margin-top:10px;
+}
+
+.button:hover{
+    text-decoration: underline;
+    color: #1C62B9;
+    cursor:pointer;
 }

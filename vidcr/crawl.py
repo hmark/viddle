@@ -4,9 +4,13 @@ import parse
 
 class RegexCrawler:
 
-	def set_regex(self, tag, regex_string):
-		self.tag = tag
-		self.regex = re.compile(regex_string)
+	def __init__(self):
+		self.tag = []
+		self.regex = []
+
+	def add_regex(self, tag, regex_string):
+		self.tag.append(tag)
+		self.regex.append(re.compile(regex_string))
 
 	def crawl(self, url):
 		self.url = url
@@ -21,15 +25,20 @@ class RegexCrawler:
 			parser = parse.SoupParser()
 			parser.parse_html(response)
 
-			tags = parser.soup.findAll(self.tag)
-			#print(videos)
-			for tag in tags:
-				parsed_vid = re.findall(self.regex, str(tag))
-				#print(parsed_vid)
-				if parsed_vid:
-					self.video = parsed_vid
-					break				
-				
+			regex_num = len(self.regex)
+			for i in range(0, regex_num):
+				tags = parser.soup.findAll(self.tag[i])
+				#print(videos)
+				for tag in tags:
+					parsed_vid = re.findall(self.regex[i], str(tag))
+					#print(parsed_vid)
+					if parsed_vid:
+						self.video = parsed_vid
+						break
+				else:
+					continue
+				break
+
 			self.name = parser.title
 			self.title = list(self.name)
 			self.title.extend(self.get_derived_data(self.title)) # special characters duplication
