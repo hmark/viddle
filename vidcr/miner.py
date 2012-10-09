@@ -32,9 +32,9 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 	try:
 		crawler.crawl(url)
 	except urllib.error.HTTPError:
-		logger.log("HTTPError", HTTPError.code,": unable to crawl page:", url)
+		logger.log("HTTPError: unable to crawl page:", url)
 
-	if crawler.video is not None:
+	if crawler.video is not None and len(crawler.name) > 0:
 		texts_len = len(crawler.texts)
 		titles_len = len(crawler.title)
 		name_len = len(crawler.name)
@@ -46,11 +46,16 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 		date = dt.strftime("%d.%m.%Y")
 		time = dt.strftime("%H:%M")
 
+		# insert new video item to db and index
 		db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
 		whoosh.add_document(url, crawler.video, crawler.name, crawler.title, crawler.texts)
 
-		logger.log("new video url: " + url)
+		logger.log("NEW VIDEO:")
+		logger.log("name: " + crawler.name)
+		logger.log("url: " + url)
+		
 	else:
+		# insert non-video item to database
 		db.links.insert({"url":url})
 		logger.log("new non-video url: " + url)
 
@@ -60,7 +65,6 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 
 db = dbase.DBConnection().get_db()
 logger = log.Logger()
-whoosh = index.Whoosh()
 
 print("Getting regular expressions...")
 
@@ -72,6 +76,7 @@ print("Starting mining...")
 
 # traverse list of sites and crawl data from them
 for post in db.sites.find():
+	whoosh = index.Whoosh()
 
 	# download sites html page
 	site_url = post["site"]
