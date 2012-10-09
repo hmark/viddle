@@ -9,8 +9,58 @@ import dbase
 import log
 from datetime import datetime
 
+def getAllLinksFromSite(response):
+	parser = parse.SoupParser()
+	parser.parse_html(response)
+	return list(set(parser.anchors))
+
+def filterValidLinksBySiteRegex(url, regex, links):
+	url = "http://" + url.replace("http://", "").split("/")[0]
+
+	valid_urls = []
+	for link in links:
+		if re.search(regex, link):
+			# normalize links to http://... format
+			if re.match(r"^http://", link): 
+				valid_urls.append(link)
+			else:
+				valid_urls.append(url + link)
+
+	return valid_urls
+
+def crawlInnerLinks(crawler, whoosh, logger, url):
+	try:
+		crawler.crawl(url)
+	except urllib.error.HTTPError:
+		logger.log("HTTPError", HTTPError.code,": unable to crawl page:", url)
+
+	if crawler.video is not None:
+		texts_len = len(crawler.texts)
+		titles_len = len(crawler.title)
+		name_len = len(crawler.name)
+		crawler.name = ' '.join(crawler.name[0:name_len])
+		crawler.texts = ' '.join(crawler.texts[0:texts_len])
+		crawler.title = ' '.join(crawler.title[0:titles_len])
+
+		dt = datetime.now()
+		date = dt.strftime("%d.%m.%Y")
+		time = dt.strftime("%H:%M")
+
+		db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
+		whoosh.add_document(url, crawler.video, crawler.name, crawler.title, crawler.texts)
+
+		logger.log("new video url: " + url)
+	else:
+		db.links.insert({"url":url})
+		logger.log("new non-video url: " + url)
+
+#####################
+#### SCRIPT INIT ####
+#####################
+
 db = dbase.DBConnection().get_db()
 logger = log.Logger()
+whoosh = index.Whoosh()
 
 print("Getting regular expressions...")
 
@@ -22,60 +72,21 @@ print("Starting mining...")
 
 # traverse list of sites and crawl data from them
 for post in db.sites.find():
-	# download html page
-	url = post["site"]
-	regex = post["regex"]
-	response = urllib.request.urlopen(url)
-	whoosh = index.Whoosh()
 
-	print("Mining site:", url)
+	# download sites html page
+	site_url = post["site"]
+	site_regex = post["regex"]
+	response = urllib.request.urlopen(site_url)
+
+	print("Mining site:", site_url)
 
 	if response.status == 200: # download is succesfull
-		parser = parse.SoupParser()
-		parser.parse_html(response)
-		anchors = parser.anchors
-
-		links = list(set(anchors))
+		links = getAllLinksFromSite(response)
+		urls = filterValidLinksBySiteRegex(site_url, site_regex, links)
 		
-		# filter article links by regex
-		articles = []
-
-		# get root domain
-		url = "http://" + url.replace("http://", "").split("/")[0]
-
-		for link in links:
-			if regex == "NONE" or re.match(re.escape(regex), link):
-				# normalize links
-				if re.match(r"^http://", link): 
-					articles.append(link)
-				else:
-					articles.append(url + link)
-
-		#print(articles)
-
-		for article in articles:
-			#print(db.links.find({"url":article}).count(), article)
-			if db.links.find({"url":article}).count() == 0:
-				crawler.crawl(article)
-				if crawler.video is not None:
-					texts_len = len(crawler.texts)
-					titles_len = len(crawler.title)
-					name_len = len(crawler.name)
-					crawler.name = ' '.join(crawler.name[0:name_len])
-					crawler.texts = ' '.join(crawler.texts[0:texts_len])
-					crawler.title = ' '.join(crawler.title[0:titles_len])
-
-					dt = datetime.now()
-					date = dt.strftime("%d.%m.%Y")
-					time = dt.strftime("%H:%M")
-					#print("insert", article, crawler.video, crawler.name)
-					db.links.insert({"url":article, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
-					whoosh.add_document(article, crawler.video, crawler.name, crawler.title, crawler.texts)
-
-					logger.log("new video url: " + article)
-				else:
-					db.links.insert({"url":article})
-					logger.log("new non-video url: " + article)
+		for url in urls:
+			if db.links.find({"url":url}).count() == 0:
+				crawlInnerLinks(crawler, whoosh, logger, url)
 
 		whoosh.commit()
 	else:
