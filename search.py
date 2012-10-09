@@ -19,13 +19,13 @@ class Query:
 			for result in results:
 				s_tags = s.key_terms([result.docnum], "body", 5)
 
-				tags = []
+				taglist = []
 				for tag in s_tags:
 					if len(tag[0]) > 4 and not re.match(r"[0-9]", tag[0]):
-						tags.append(tag[0])
-				
+						taglist.append(self.get_derived_word(tag[0]))
+				taglist = list(set(taglist))
 
-				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], tags])
+				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], taglist])
 
 		return data
 
@@ -38,6 +38,16 @@ class Query:
 
 		return data
 
+	def get_derived_word(self, word):
+		pattern = re.compile(r'[áäčďéíĺľňóôŕšťúýž]')
+		trans_table = str.maketrans("áäčďéíĺľňóôŕřšťúýž", "aacdeillnoorrstuyz")
+
+		if pattern.findall(word):
+			derived_word = word.translate(trans_table)
+			return derived_word
+		else:
+			return word
+
 	def show_all(self):
 		self.whoosh = vidcr.index.Whoosh()
 		reader = self.whoosh.index.reader()
@@ -46,4 +56,4 @@ class Query:
 			print(result)
 
 #q = Query()
-#print(q.search_term("internet"))
+#print(q.search_term("tablet"))
