@@ -39,4 +39,4 @@ class Whoosh:
 
 	def commit(self):
 		self.writer.commit(optimize=True)
-
+		
