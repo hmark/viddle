@@ -138,6 +138,7 @@ body{
     text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
     font-weight:bold;
     font-style: italic;
+    padding-left: 10px;
 }
 
 .date{
