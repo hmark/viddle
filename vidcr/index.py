@@ -37,6 +37,9 @@ class Whoosh:
 	def add_document(self, url, video, name, title, body):
 		self.writer.add_document(url=url, video=video, name=name, title=title, body=body)
 
+	def remove_document(self): # USE ONLY IN SPECIAL CASES
+		self.writer.delete_document(1)
+
 	def commit(self):
 		self.writer.commit(optimize=True)
-		
+
