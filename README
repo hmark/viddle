@@ -1,33 +1,53 @@
 ##########
 INFORMATION
 ##########
-Name:		Viddle 
-Info:		Web video syndicator
-Author:		hlavko (Mark Hlavac)
+Project name:	Viddle 
+Description:	Web video syndicator
+Author:			hlavko / Mark Hlavac / hmark.eu
 
 ##########
-HOW TO USE
+DEPENDENCIES
 ##########
+# to run Viddle in your local environment you will need:
+1. Python 3.x
+2. Whoosh module
+3. CherryPy module
+4. BeautifulSoup module 
+5. PyMongo module
+6. MongoDB database
 
-1. change set of crawling sites in ./conf/sites.dat where e.g.:
-<URL> <REGEXP> <CRAWLER>
+##########
+INSTALLATION
+##########
+/data/db.conf
+- should contain one line of mongodb access data in format: mongodb://USER:PASS@SITE:PORT/DB_NAME
 
-<URL> 		- URL where we will try to find our video content
-<REGEXP>	- regexp anchor tags filter for concrete site
-<CRAWLER>	- name of crawling method (sites have different methods for accessing video)
+/data/sites.conf
+- list of sites from we are going to crawl inner links with additional sites information
+- one line contains triplet [URL INNER_LINKS_FILTER NAME] where:
+URL is sites url
+INNER_LINKS_FILTER is used for filtering out cross-domain or other irrelevant inner links
+NAME is used for identifying site
 
-2. change mongodb access in ./conf/db.conf
+/data/regex.conf
+- list of regular expressions that will be used for finding out video data
+- one line contains pair [TAG URL_REGEX] where:
+TAG specifies tags from which we are going to crawl video data
+URL_REGEX is regular expression for finding out video data
+e.g.: input http://embed.ted.com/talks/.*\.html
 
-3. start mining by:
-python miner.py
+##########
+BASIC USAGE
+##########
+- web crawling can be started with miner.py script:
+python crawler/miner.py
 
-notes: search index is created only at first launch
-
-4. check logs in directory ./logs if everything is OK
-
-5. start searching in index by creating simple .py script:
-
-from viddle import search
-
+- search can be executed through web GUI or by query class from search module:
+from search import Query
 query = search.Query()
-query.search_term("hello")
+query.search_term("internet")
+
+##########
+VIDDLE`S CORE
+##########
+TBD
