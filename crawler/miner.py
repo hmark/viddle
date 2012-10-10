@@ -1,3 +1,12 @@
+"""This module contains data mining script. (it is the heart of Viddle :)
+Miner is working in several steps:
+1. Initiliaze all modules and download URL of sites from db in which we will look for video data.
+2. Traverse list of URLs and crawl anchors from them. (function getAllLinksFromSite())
+3. Filter out cross-domain and other irrelevant links. Every URL has own filter. (function filterValidLinksBySiteRegex())
+4. Traverse list of filtered inner links and crawl video data from them. (function crawlInnerLinks())
+5. Save succesful finds to database and index. (function crawlInnerLinks())
+"""
+
 import pymongo
 import urllib.request
 import parse
@@ -11,11 +20,24 @@ import logging
 from datetime import datetime
 
 def getAllLinksFromSite(response):
+	"""Parse anchors from sites response.
+	Returns list of anchors (list of hrefs).
+	
+	:param response: html response
+	"""
+
 	parser = parse.SoupParser()
 	parser.parse_html(response)
 	return list(set(parser.anchors))
 
 def filterValidLinksBySiteRegex(url, regex, links):
+	"""Filter valid links (anchor hrefs) by input regular expression.
+	Returns matched links.
+	
+	:param regex: sites regular expression
+	:param links: list of anchors (hrefs)
+	"""
+
 	url = "http://" + url.replace("http://", "").split("/")[0]
 
 	valid_urls = []
@@ -30,6 +52,17 @@ def filterValidLinksBySiteRegex(url, regex, links):
 	return valid_urls
 
 def crawlInnerLinks(crawler, whoosh, logger, url):
+	"""Crawl data from URL and process output.
+	If URL contains video data then save him to mongo database and whoosh index engine.
+	If URL does not contain video data then remember this site as a browsed in the mongo database.
+	Positive and negative finds are tracking through logger.
+	
+	:param crawler: sites regular expression
+	:param whoosh: list of anchors (hrefs)
+	:param logger: list of anchors (hrefs)
+	:param url: crawling URL
+	"""
+
 	try:
 		crawler.crawl(url)
 	except urllib.error.HTTPError:
@@ -37,7 +70,7 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 
 	try:
 
-		if crawler.video is not None and len(crawler.name) > 0:
+		if crawler.is_video_found():
 			texts_len = len(crawler.texts)
 			titles_len = len(crawler.title)
 			name_len = len(crawler.name)

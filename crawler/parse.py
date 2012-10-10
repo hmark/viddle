@@ -1,8 +1,20 @@
+"""This file contains HTML parsers.
+"""
+
 from bs4 import BeautifulSoup
 
 class SoupParser:
+	"""SoupParser is parsing anchor, header and text from specified HTML.
+	It is using BeautifulSoup extension. 
+	For more informatin about BeautifulSoup, check out: http://www.crummy.com/software/BeautifulSoup/
+	"""
 
 	def parse_html(self, html):
+		"""Parse anchors, header and text from specified HTML page.
+		
+		:param html: specified html page
+		"""
+
 		self.soup = BeautifulSoup(html)
 
 		self.anchors = []
