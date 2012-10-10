@@ -21,7 +21,7 @@ class Query:
 
 				taglist = []
 				for tag in s_tags:
-					if len(tag[0]) > 4 and not re.match(r"[0-9]", tag[0]):
+					if len(tag[0]) > 3 and not re.match(r"[0-9]", tag[0]):
 						taglist.append(self.get_derived_word(tag[0]))
 				taglist = list(set(taglist))
 
