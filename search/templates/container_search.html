@@ -1,5 +1,4 @@
 <div id="results">
-    <h3>Results: ${length}</h3>
     <%!
         import re
             
@@ -18,6 +17,9 @@
         def is_old_ted(text):
             return re.match(r"^http://video.ted.com", text);
     %>
+
+    <h3>Results: ${length}</h3>
+
     %    for item in data:
              <div class="result">
                 <div class="info">
@@ -77,4 +79,16 @@
                 <div class="button">SHOW VIDEO</div>
             </div>
     %    endfor
+
+    <div id="pagination">
+        %   if page > 1:
+                <a class="prev_page" href="./search?term=${term}&page=${page - 1}"><</a>
+        %   endif
+
+        Page ${page} / ${pages}
+
+        %   if page < pages:
+            <a class="next_page" href="./search?term=${term}&page=${page + 1}">></a>
+        %   endif
+    </div>
 </div>        
