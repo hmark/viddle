@@ -1,6 +1,4 @@
-logs/
-vidcr/index/
-__pycache__/
-tmp/
-
 data
+crawler/__pycache__
+search/__pycache__
+search/tmp

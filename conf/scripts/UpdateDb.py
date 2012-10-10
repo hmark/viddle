@@ -4,7 +4,7 @@ import os
 class DBConnection:
 
 	def __init__(self):
-		f = open(os.path.dirname(__file__) + "/../vidcr/conf/db.conf", "r")
+		f = open("../db.conf", "r")
 		dbCon = f.readline().strip()
 		connection = pymongo.Connection(dbCon)
 		self.db = connection.db_viddle

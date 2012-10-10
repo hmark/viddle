@@ -1,5 +1,5 @@
-import vidcr.index
-import vidcr.dbase
+import index
+import dbase
 import re
 from whoosh.qparser import MultifieldParser
 #from whoosh.query import Every
@@ -7,7 +7,7 @@ from whoosh.qparser import MultifieldParser
 class Query:
 
 	def search_term(self, term):
-		self.whoosh = vidcr.index.Whoosh()
+		self.whoosh = index.Whoosh()
 		parser = MultifieldParser(["title", "body"], schema=self.whoosh.index.schema)
 		query = parser.parse(term)
 
@@ -30,7 +30,7 @@ class Query:
 		return data
 
 	def get_newest(self, count):
-		db = vidcr.dbase.DBConnection().get_db()
+		db = dbase.DBConnection().get_db()
 
 		data = []
 		for result in db.links.find({ "video": {"$exists": "true"}, "title": {"$exists": "true"}}).sort("_id", -1).limit(count):
