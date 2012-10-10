@@ -53,6 +53,7 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 		logger.log("NEW VIDEO:")
 		logger.log("name: " + crawler.name)
 		logger.log("url: " + url)
+		logger.log("video: " + crawler.video[0])
 		
 	else:
 		# insert non-video item to database
