@@ -12,8 +12,11 @@
         def parse_tvsme_video_id(text):
             return re.findall(r"[0-9]{5}", text)[0]
             
-        def is_ted(text):
+        def is_new_ted(text):
             return re.match(r"^http://embed.ted.com", text);
+
+        def is_old_ted(text):
+            return re.match(r"^http://video.ted.com", text);
     %>
     %    for item in data:
              <div class="result">
@@ -35,8 +38,23 @@
                 <div class="video">
                 % if is_youtube(item[3]):
                     <iframe width="400" height="250" src="${item[3]}" frameborder="0" allowfullscreen=""></iframe>
-                % elif is_ted(item[3]):
-                    <iframe src="${item[3]}" width="385" height="270" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                % elif is_new_ted(item[3]):
+                    <iframe src="${item[3]}" width="385" height="270" frameborder="0" scrolling="no" webkitAllowFullScreen
+                    mozallowfullscreen allowFullScreen></iframe>
+                % elif is_old_ted(item[3]):
+                    <embed 
+                        src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" 
+                        pluginspace="http://www.macromedia.com/go/getflashplayer" 
+                        type="application/x-shockwave-flash"
+                        wmode="transparent" 
+                        bgColor="#ffffff" 
+                        width="400" 
+                        height="255"
+                        allowFullScreen="true" 
+                        allowScriptAccess="always" 
+                        flashvars="vu=${item[3]}&vw=385&amp;vh=170">
+-                    </embed>
+
                 % elif is_tvsme(item[3]):
                 <%
                     video_id = parse_tvsme_video_id(item[3])
