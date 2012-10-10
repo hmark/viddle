@@ -1,8 +1,18 @@
 import pymongo
 import os
-import dbase
 
-db = dbase.DBConnection().get_db()
+class DBConnection:
+
+	def __init__(self):
+		f = open(os.path.dirname(__file__) + "/../vidcr/conf/db.conf", "r")
+		dbCon = f.readline().strip()
+		connection = pymongo.Connection(dbCon)
+		self.db = connection.db_viddle
+
+	def get_db(self):
+		return self.db
+
+db = DBConnection().get_db()
 
 print("Removing all sites from db...")
 db.sites.remove()
@@ -11,7 +21,7 @@ print("Parsing new sites from config file...")
 sites = []
 regex = []
 crawlers = []
-for site in open("./conf/sites.conf", "r"):	
+for site in open("../vidcr/conf/sites.conf", "r"):	
 	data = site.strip().split()
 	sites.append(data[0])
 	regex.append(data[1])
