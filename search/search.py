@@ -6,14 +6,14 @@ from whoosh.qparser import MultifieldParser
 
 class Query:
 
-	def search_term(self, term):
+	def search_term(self, term, page):
 		self.whoosh = index.Whoosh()
 		parser = MultifieldParser(["title", "body"], schema=self.whoosh.index.schema)
 		query = parser.parse(term)
 
 		data = []
 		with self.whoosh.index.searcher() as s:
-			results = s.search(query)
+			results = s.search_page(query, page, pagelen=5)
 			results_len = len(results)
 
 			for result in results:
@@ -27,7 +27,7 @@ class Query:
 
 				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], taglist])
 
-		return data
+		return data, results_len
 
 	def get_newest(self, count):
 		db = dbase.DBConnection().get_db()
