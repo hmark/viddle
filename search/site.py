@@ -3,11 +3,13 @@ import cherrypy
 import search
 from mako.template import Template
 from mako.lookup import TemplateLookup
+import os.path
 
-CONFIG = './conf/dev.conf'
-#CONFIG = './conf/prod.conf'
+dirname = os.path.dirname(__file__)
+#CONFIG = dirname + '/conf/dev.conf'
+CONFIG = dirname + '/conf/prod.conf'
 
-tmpl_lookup = TemplateLookup(directories=['./templates'], module_directory='./tmp/mako_modules', input_encoding='utf-8', output_encoding='utf-8')
+tmpl_lookup = TemplateLookup(directories=[dirname + '/templates'], module_directory=dirname + '/tmp/mako_modules', input_encoding='utf-8', output_encoding='utf-8')
 
 class RootPage(object):
 

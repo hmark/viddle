@@ -7,6 +7,7 @@ import crawl
 import index
 import dbase
 import log
+import logging
 from datetime import datetime
 
 def getAllLinksFromSite(response):
@@ -34,31 +35,35 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 	except urllib.error.HTTPError:
 		logger.log("HTTPError: unable to crawl page:", url)
 
-	if crawler.video is not None and len(crawler.name) > 0:
-		texts_len = len(crawler.texts)
-		titles_len = len(crawler.title)
-		name_len = len(crawler.name)
-		crawler.name = ' '.join(crawler.name[0:name_len])
-		crawler.texts = ' '.join(crawler.texts[0:texts_len])
-		crawler.title = ' '.join(crawler.title[0:titles_len])
+	try:
 
-		dt = datetime.now()
-		date = dt.strftime("%d.%m.%Y")
-		time = dt.strftime("%H:%M")
+		if crawler.video is not None and len(crawler.name) > 0:
+			texts_len = len(crawler.texts)
+			titles_len = len(crawler.title)
+			name_len = len(crawler.name)
+			crawler.name = ' '.join(crawler.name[0:name_len])
+			crawler.texts = ' '.join(crawler.texts[0:texts_len])
+			crawler.title = ' '.join(crawler.title[0:titles_len])
 
-		# insert new video item to db and index
-		db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
-		whoosh.add_document(url, crawler.video, crawler.name, crawler.title, crawler.texts)
+			dt = datetime.now()
+			date = dt.strftime("%d.%m.%Y")
+			time = dt.strftime("%H:%M")
 
-		logger.log("NEW VIDEO:")
-		logger.log("name: " + crawler.name)
-		logger.log("url: " + url)
-		logger.log("video: " + crawler.video[0])
-		
-	else:
-		# insert non-video item to database
-		db.links.insert({"url":url})
-		logger.log("new non-video url: " + url)
+			# insert new video item to db and index
+			db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
+			whoosh.add_document(url, crawler.video, crawler.name, crawler.title, crawler.texts)
+
+			logger.log("NEW VIDEO:")
+			logger.log("name: " + crawler.name)
+			logger.log("url: " + url)
+			logger.log("video: " + crawler.video[0])
+			
+		else:
+			# insert non-video item to database
+			db.links.insert({"url":url})
+			logger.log("new non-video url: " + url)
+	except:
+		print(logging.exception(''))
 
 #####################
 #### SCRIPT INIT ####
