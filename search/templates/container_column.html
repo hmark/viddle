@@ -1,0 +1,18 @@
+<div id="column">
+
+	% if help:
+        <%include file="container_help.html"/>
+    % else:
+	    <div id="results">
+	        
+	        % if length == -1:
+	           <%include file="container_newest.html"/>
+	        % elif length == 0:
+	            <div id='empty_search'>This search did not match any documents.<br> Try ro read <a href="/help">help</a> page for the creation of queries.</div>
+	        % else:
+	            <%include file="container_search.html"/>
+	        % endif
+	                
+	    </div>
+	% endif
+</div>

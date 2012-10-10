@@ -2,3 +2,5 @@ logs/
 vidcr/index/
 __pycache__/
 tmp/
+
+data
