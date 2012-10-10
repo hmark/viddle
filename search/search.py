@@ -33,16 +33,16 @@ class Query:
 
 			for result in results:
 				tags = s.key_terms([result.docnum], "body", 5)
-				taglist = create_taglist(tags)
+				taglist = self.create_taglist(tags)
 
 				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], taglist])
 
 		return data, results_len
 
-	def create_taglist():
+	def create_taglist(self, tags):
 		taglist = []
-		for tag in s_tags:
-			if len(tag[0]) > 3 and not re.match(r"[0-9]", tag[0]): # 
+		for tag in tags:
+			if len(tag[0]) > 3 and not re.match(r"[0-9]", tag[0]):
 				taglist.append(self.translate_word(tag[0]))
 		return list(set(taglist))
 
