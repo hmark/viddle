@@ -2,3 +2,4 @@ data
 crawler/__pycache__
 search/__pycache__
 search/tmp
+conf/db.conf
