@@ -75,7 +75,7 @@ class RegexCrawler:
 		Returns TRUE if the crawler found video with acceptable video name (with at least 1 character).
 		"""
 
-		return self.video != None and len(crawler.name) > 0
+		return self.video != None and len(self.name) > 0
 
 	def get_derived_data(self, words):
 		"""Used for deriving non-english words with special characters.
