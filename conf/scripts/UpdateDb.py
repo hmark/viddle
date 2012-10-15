@@ -39,10 +39,13 @@ def update_player_for_video(db):
 			db.links.update({'_id': result["_id"]},{"$set" : {"player" : "ted.com(old)"}})
 	
 def get_players(db):
-	results = db.links.find({"video":{"$exists": "true"}})
+	results = db.links.find({"video":{"$exists": True}})
 	for result in results:
 		print(result["video"][0])
 		print(result["player"])
 
+def remove_non_video_items(db):
+	db.links.remove({"video":{"$exists": False}})
+
 db = DBConnection().get_db()
-#get_players(db)
+#remove_non_video_items(db)

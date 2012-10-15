@@ -93,8 +93,8 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 			
 		else:
 			# insert non-video item to database
-			db.links.insert({"url":url})
-			logger.log("new non-video url: " + url)
+			#db.links.insert({"url":url})
+			logger.log("non-video url: " + url)
 	except:
 		print(logging.exception(''))
 
