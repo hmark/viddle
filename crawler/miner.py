@@ -83,17 +83,17 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 			time = dt.strftime("%H:%M")
 
 			# insert new video item to db and index
-			#db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
+			db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
 			whoosh.add_document(url, crawler.video, crawler.player, crawler.name, crawler.title, crawler.texts)
 
-			logger.log("NEW VIDEO:")
+			logger.log("NEW VIDEO:\n")
 			logger.log("name: " + crawler.name)
 			logger.log("url: " + url)
 			logger.log("video: " + crawler.video[0])
 			
 		else:
 			# insert non-video item to database
-			#db.links.insert({"url":url})
+			db.links.insert({"url":url})
 			logger.log("new non-video url: " + url)
 	except:
 		print(logging.exception(''))
@@ -109,7 +109,7 @@ print("Getting regular expressions...")
 
 crawler = crawl.RegexCrawler()
 for entry in db.regexes.find():
-	crawler.add_regex(entry["tag"], entry["regex"], entry["regex"])
+	crawler.add_regex(entry["tag"], entry["regex"], entry["player"])
 
 print("Starting mining...")
 
