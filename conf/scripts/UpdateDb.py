@@ -47,5 +47,10 @@ def get_players(db):
 def remove_non_video_items(db):
 	db.links.remove({"video":{"$exists": False}})
 
+def get_urls_by_regex(db):
+	results = db.links.find({"url":{"$regex": "\?"}})
+	for result in results:
+		print(result["url"])
+
 db = DBConnection().get_db()
-#remove_non_video_items(db)
+get_urls_by_regex(db)
