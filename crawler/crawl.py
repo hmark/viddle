@@ -17,16 +17,19 @@ class RegexCrawler:
 
 		self.tag = []
 		self.regexps = []
+		self.players = []
 
-	def add_regex(self, tag, regex):
+	def add_regex(self, tag, regex, player):
 		"""Add regex string with related html tag name.
 
 		:param tag: HTML tag where the search will be realized. e.g.: iframe, meta, title...
 		:param regex: Regex pattern which describes accepted URLs. e.g.: http://www.youtube.com/embed/[0-9A-Za-z_-]{11}
+		:param player: Video player type (based on video site)
 		"""
 
 		self.tag.append(tag)
 		self.regexps.append(re.compile(regex))
+		self.players.append(player)
 
 	def crawl(self, url):
 		"""Start crawling data from specified URL. Crawling is realized by list of tags and regular expressions.
@@ -57,6 +60,7 @@ class RegexCrawler:
 					
 					if parsed_vid:
 						self.video = parsed_vid
+						self.player = self.players[i]
 						break
 				else:
 					continue

@@ -83,8 +83,8 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 			time = dt.strftime("%H:%M")
 
 			# insert new video item to db and index
-			db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
-			whoosh.add_document(url, crawler.video, crawler.name, crawler.title, crawler.texts)
+			#db.links.insert({"url":url, "video":crawler.video, "name":crawler.name, "title":crawler.title, "texts":crawler.texts, "date":date, "time":time})
+			whoosh.add_document(url, crawler.video, crawler.player, crawler.name, crawler.title, crawler.texts)
 
 			logger.log("NEW VIDEO:")
 			logger.log("name: " + crawler.name)
@@ -93,7 +93,7 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 			
 		else:
 			# insert non-video item to database
-			db.links.insert({"url":url})
+			#db.links.insert({"url":url})
 			logger.log("new non-video url: " + url)
 	except:
 		print(logging.exception(''))
@@ -109,13 +109,16 @@ print("Getting regular expressions...")
 
 crawler = crawl.RegexCrawler()
 for entry in db.regexes.find():
-	crawler.add_regex(entry["tag"], entry["regex"])
+	crawler.add_regex(entry["tag"], entry["regex"], entry["regex"])
 
 print("Starting mining...")
 
+whoosh = index.Whoosh()
+whoosh.clone()
+
 # traverse list of sites and crawl data from them
 for post in db.sites.find():
-	whoosh = index.Whoosh()
+	whoosh.init()
 
 	# download sites html page
 	site_url = post["site"]
@@ -136,5 +139,6 @@ for post in db.sites.find():
 	else:
 		raise Exception("Error: requested URL ", url, "return status code: ", req.status)
 
+whoosh.close()
 
 print("Mining succesfully finished.")
