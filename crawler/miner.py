@@ -39,11 +39,10 @@ def filterValidLinksBySiteRegex(url, regex, links):
 	"""
 
 	url = "http://" + url.replace("http://", "").split("/")[0]
-	url = url.split("?")[0] # normalize URLs with '?' character (e.g.: http://www.xxx.com/yyy/zzz.html?quote=123)
-
+	
 	valid_urls = []
 	for link in links:
-		if re.search(regex, link):
+		if re.search(regex, link) and not re.search("\?", link):
 			# normalize links to http://... format
 			if re.match(r"^http://", link): 
 				valid_urls.append(link)
