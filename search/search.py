@@ -13,13 +13,13 @@ class Query:
 	def search_term(self, term, page):
 		"""Term-based index search. Page length is 5.
 		Words which are shorter than 3 characters and words with numbers are ignored.
-		Search findings contains score. Calculation of score is based on inverted index.
+		Search results contains score which is based on inverted index. 
 		For more information, check: http://en.wikipedia.org/wiki/Inverted_index
-		Findings in titles are boosted by 5.
-		Returns matched data for specified page in descending order with their number (number indicates the number of all).
+		Results found in titles are boosted by 5.
+		Returns results for specified page in descending order.
 
 		:param term: searching term (keywords)
-		:param page: findings are filtered by specified page
+		:param page: results are filtered by this specified page
 		"""
 
 		self.whoosh = index.Whoosh()
@@ -35,7 +35,7 @@ class Query:
 				tags = s.key_terms([result.docnum], "body", 5)
 				taglist = self.create_taglist(tags)
 
-				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], taglist])
+				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], taglist, result["player"]])
 
 		return data, results_len
 

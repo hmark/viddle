@@ -1,0 +1,19 @@
+<%page args="video"/>
+
+<%
+    import re
+        
+    def parse_videoid(text):
+        return re.findall(r"[0-9]{5}", text)[0]
+
+    video_id = parse_videoid(video)
+%>
+
+<iframe 
+width="400" 
+height="250" 
+border="0" 
+frameborder="0" 
+scrolling="no"
+style="padding:0px; margin:0px; border: 0px;" 
+src="http://www.sme.sk/vp/${video_id}/"></iframe>
