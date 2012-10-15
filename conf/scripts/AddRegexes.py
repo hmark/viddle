@@ -20,13 +20,15 @@ db.regexes.remove()
 print("Parsing regexes from config file...")
 tags = []
 regexes = []
+players = []
 for line in open("../regex.conf", "r"):
 	data = line.strip().split()
 	tags.append(data[0])
 	regexes.append(data[1])
+	players.append(data[2])
 
 for i in range(len(tags)):
-	print("Adding tag", tags[i], "with regex:", regexes[i])
-	db.regexes.insert({"tag": tags[i], "regex":regexes[i]})
+	print("Adding tag", tags[i], "with regex:", regexes[i], " and player:", players[i])
+	db.regexes.insert({"tag": tags[i], "regex":regexes[i], "player":players[i]})
 
 print("Script succesfully terminated.");
