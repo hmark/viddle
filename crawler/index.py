@@ -18,6 +18,7 @@ class Whoosh:
 
 		path = os.path.dirname(__file__) + "/../data/index"
 		target = os.path.dirname(__file__) + "/../data/indexcopy"
+		shutil.rmtree(target)
 		shutil.copytree(path, target)
 
 	def init(self):
