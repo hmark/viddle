@@ -5,7 +5,7 @@ $(document).ready(function(){
         $(".searchfield").val(term);
 
     console.log("hide")
-    $('.video').hide();
+    //$('.video').hide();
     $('.button').click(toggleVideo);
 });
 
