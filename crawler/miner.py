@@ -42,7 +42,8 @@ def filterValidLinksBySiteRegex(url, regex, links):
 	
 	valid_urls = []
 	for link in links:
-		if re.search(regex, link) and not re.search("\?", link):
+		link = str(link)
+		if re.search(regex, link):
 			# normalize links to http://... format
 			if re.match(r"^http://", link): 
 				valid_urls.append(link)
@@ -131,7 +132,7 @@ for post in db.sites.find():
 		links = getAllLinksFromSite(response)
 		urls = filterValidLinksBySiteRegex(site_url, site_regex, links)
 		
-		for url in urls:
+		for url in urls: # test againts mined urls
 			if db.links.find({"url":url}).count() == 0:
 				crawlInnerLinks(crawler, whoosh, logger, url)
 
