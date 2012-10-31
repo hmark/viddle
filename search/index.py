@@ -2,6 +2,7 @@
 """
 
 import os.path
+from whoosh.index import open_dir
 
 class Whoosh:
 	"""Reads and writes searching data to index engine.
