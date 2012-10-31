@@ -1,0 +1,26 @@
+<%page args="video"/>
+
+<%
+    import re
+        
+    def parse_videoid(text):
+        return re.findall(r"[0-9]{4}", text)[0]
+
+    video_id = parse_videoid(video)
+%>
+
+<object type="application/x-shockwave-flash" data="http://zoznamstatic.sk/flvPlayer/player.swf" width="454" height="254">
+<param name="movie" value="http://zoznamstatic.sk/flvPlayer/player.swf" />
+<param name="quality" value="high" />
+<param name="bgcolor" value="#000000" />
+<param name="play" value="true" />
+<param name="loop" value="true" />
+<param name="wmode" value="opaque" />
+<param name="scale" value="showall" />
+<param name="menu" value="false" />
+<param name="devicefont" value="false" />
+<param name="salign" value="" />
+<param name="allowScriptAccess" value="always" />
+<param name="allowFullScreen" value="true" />
+<param name="FlashVars" value="file=http://img.topky.sk/video/${video_id}.flv&img=http://img.topky.sk/video/${video_id}.jpg&settingsFile=http://zoznamstatic.sk/flvPlayer/player_topky_settings.xml" />
+</object>
