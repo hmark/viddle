@@ -3,7 +3,6 @@
 
 from whoosh.fields import Schema, TEXT, ID, STORED
 from whoosh.index import create_in, open_dir
-import os.path
 import os
 import shutil
 
@@ -13,12 +12,14 @@ class Whoosh:
 	"""
 
 	def clone(self):
-		"""Clone actual index.
+		"""Remove existing target directory and clone there actual index. 
 		"""
 
 		path = os.path.dirname(__file__) + "/../data/index"
 		target = os.path.dirname(__file__) + "/../data/indexcopy"
-		shutil.rmtree(target)
+
+		if os.access(target, os.W_OK):
+			shutil.rmtree(target)
 		shutil.copytree(path, target)
 
 	def init(self):
