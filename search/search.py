@@ -48,14 +48,14 @@ class Query:
 
 	def translate_word(self, word):
 		"""Used for deriving non-english words with special characters.
-		Setup of characters translation: [áäčďéíĺľňóôŕřšťúýž] -> [aacdeillnoorrstuyz]
+		Setup of characters translation: [áäčďéíĺľňóôŕřšťúýžÁČĎÉÍĽŇÓŠŤÚŽ] -> [aacdeillnoorrstuyzacdeilnostuz]
 		Returns translated word.
 		
 		:param word: untranslated word
 		"""
 
-		pattern = re.compile(r'[áäčďéíĺľňóôŕšťúýž]')
-		trans_table = str.maketrans("áäčďéíĺľňóôŕřšťúýž", "aacdeillnoorrstuyz")
+		pattern = re.compile(r'[áäčďéíĺľňóôŕšťúýžÁČĎÉÍĽŇÓŠŤÚŽ]')
+		trans_table = str.maketrans("áäčďéíĺľňóôŕřšťúýžÁČĎÉÍĽŇÓŠŤÚŽ", "aacdeillnoorrstuyzacdeilnostuz")
 
 		if pattern.findall(word):
 			derived_word = word.translate(trans_table)
