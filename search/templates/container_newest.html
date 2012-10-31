@@ -4,7 +4,7 @@
         import re
             
         def get_site(url):
-            url = re.findall(r"http://[a-z\.]*/", url)[0]
+            url = re.findall(r"http://[a-z0-9\.]*/", url)[0]
             url = re.sub(r"http://|/|www\.", "", url)
             return url
     %>
