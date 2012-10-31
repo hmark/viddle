@@ -90,7 +90,7 @@ class RegexCrawler:
 		"""
 
 		derived = []
-		pattern = re.compile(r'[áäčďéíĺľňóôŕšťúýž]')
+		pattern = re.compile(r'[áäčďéíĺľňóôŕšťúýžÁČĎÉÍĽŇÓŠŤÚÝŽ]')
 		trans_table = str.maketrans("áäčďéíĺľňóôŕřšťúýžÁČĎÉÍĽŇÓŠŤÚÝŽ", "aacdeillnoorrstuyzacdeilnostuyz")
 
 		for word in words:
