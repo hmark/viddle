@@ -48,7 +48,7 @@ def remove_non_video_items(db):
 	db.links.remove({"video":{"$exists": False}})
 
 def get_urls_by_regex(db):
-	results = db.links.find({"url":{"$regex": "\?"}})
+	results = db.links.find({"url":{"$regex": "www.ta3.com"}})
 	for result in results:
 		print(result["url"])
 
