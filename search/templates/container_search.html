@@ -20,10 +20,10 @@
                 </div>
         %    for video_item in item[3]:
                 <div class="video">
-                    <%include file="players/${item[5]}.html" args="video=item[3]"/>
+                    <%include file="players/${item[5]}.html" args="video=video_item"/>
                 </div>
         %    endfor
-                <div class="button">SHOW VIDEO</div>
+                <div class="button">HIDE VIDEO</div>
             </div>
     %    endfor
 

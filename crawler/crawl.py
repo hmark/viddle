@@ -44,6 +44,7 @@ class RegexCrawler:
 		self.name = None
 		self.title = None
 		self.texts = None
+		self.player = None
 
 		response = urllib.request.urlopen(self.url)
 
@@ -52,19 +53,18 @@ class RegexCrawler:
 			parser.parse_html(response)
 
 			regex_num = len(self.regexps)
+			parsed_vids = []
 			for i in range(0, regex_num):
 				tags = parser.soup.findAll(self.tag[i]) # get all content from tags
 				
 				for tag in tags:
-					parsed_vid = re.findall(self.regexps[i], str(tag)) # find video content based on regex
-					
-					if parsed_vid:
-						self.video = parsed_vid
+					parsed_vids.extend(re.findall(self.regexps[i], str(tag))) # find video content based on regex
+
+					if len(parsed_vids) > 0 and self.player == None:
 						self.player = self.players[i]
-						break
-				else:
-					continue
-				break
+
+			if len(parsed_vids) > 0:
+				self.video = parsed_vids
 
 			self.name = parser.title
 			self.title = list(self.name)
