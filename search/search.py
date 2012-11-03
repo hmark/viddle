@@ -25,19 +25,20 @@ class Query:
 		self.whoosh = index.Whoosh()
 		parser = MultifieldParser(["title", "body"], schema=self.whoosh.index.schema)
 		query = parser.parse(term)
+		SCORE_LIMIT = 5
 
 		data = []
 		with self.whoosh.index.searcher() as s:
 			results = s.search_page(query, page, pagelen=5)
-			results_len = len(results)
 
 			for result in results:
 				tags = s.key_terms([result.docnum], "body", 5)
 				taglist = self.create_taglist(tags)
 
-				data.append([str(result["url"]), str(result["name"]), "%.2f" % result.score, result["video"][0], taglist, result["player"]])
+				if result.score > SCORE_LIMIT:
+					data.append([str(result["url"]), str(result["name"]), "%.2f" % (result.score - SCORE_LIMIT), result["video"][0], taglist, result["player"]])
 
-		return data, results_len
+		return data, len(data)
 
 	def create_taglist(self, tags):
 		taglist = []
