@@ -44,6 +44,10 @@ def filterValidLinksBySiteRegex(url, regex, links):
 	for link in links:
 		link = str(link)
 		if re.search(regex, link):
+			# cnn sites treatment
+			if re.search(r"\?hpt",link):
+				link = link.split("?")[0]
+
 			# normalize links to http://... format
 			if re.match(r"^http://", link): 
 				valid_urls.append(link)
