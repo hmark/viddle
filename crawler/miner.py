@@ -64,10 +64,14 @@ def crawlInnerLinks(crawler, whoosh, logger, url):
 	:param url: crawling URL
 	"""
 
+	logger.log("start: " + url)
+
 	try:
 		crawler.crawl(url)
 	except urllib.error.HTTPError:
 		logger.log("HTTPError: unable to crawl page:" + url)
+	except:
+		logger.log("Failed to load URL: " + url)
 
 	try:
 
@@ -123,7 +127,7 @@ for post in db.sites.find():
 
 	# download sites html page
 	site_url = post["site"]
-	site_regex = post["regex"]
+	site_regex = re.compile(post["regex"])
 	response = urllib.request.urlopen(site_url)
 
 	print("Mining site:", site_url)
@@ -131,12 +135,11 @@ for post in db.sites.find():
 	if response.status == 200: # download is succesfull
 		links = getAllLinksFromSite(response)
 		urls = filterValidLinksBySiteRegex(site_url, site_regex, links)
-		
+
 		for url in urls: # test againts mined urls
 			if db.links.find({"url":url}).count() == 0:
 				crawlInnerLinks(crawler, whoosh, logger, url)
 
-		break
 		whoosh.commit()
 	else:
 		raise Exception("Error: requested URL ", url, "return status code: ", req.status)
