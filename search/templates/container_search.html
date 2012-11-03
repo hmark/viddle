@@ -18,9 +18,11 @@
                         % endfor
                     </div>
                 </div>
+        %    for video_item in item[3]:
                 <div class="video">
                     <%include file="players/${item[5]}.html" args="video=item[3]"/>
                 </div>
+        %    endfor
                 <div class="button">SHOW VIDEO</div>
             </div>
     %    endfor

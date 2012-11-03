@@ -36,7 +36,7 @@ class Query:
 				taglist = self.create_taglist(tags)
 
 				if result.score > SCORE_LIMIT:
-					data.append([str(result["url"]), str(result["name"]), "%.2f" % (result.score - SCORE_LIMIT), result["video"][0], taglist, result["player"]])
+					data.append([str(result["url"]), str(result["name"]), "%.2f" % (result.score - SCORE_LIMIT), result["video"], taglist, result["player"]])
 
 		return data, len(data)
 
