@@ -53,4 +53,5 @@ def get_urls_by_regex(db):
 		print(result["url"])
 
 db = DBConnection().get_db()
-get_urls_by_regex(db)
+db.links.remove({"url":{"$regex": ".cnn.com"}})
+#get_urls_by_regex(db)
