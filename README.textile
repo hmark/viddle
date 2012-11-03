@@ -1,9 +1,9 @@
-Viddle
-======
+h1. Viddle
+
 Web video syndicator.
 
-Changelog
----------
+h2. Changelog
+
 0.5
 - extended list of supported sites and video players
 - multiple videos per page functionality
@@ -25,41 +25,41 @@ Changelog
 - data parsering
 - basic whoosh indexing and search engine
 
-Dependencies
-------------
+h2. Dependencies
+
 To run Viddle in your local environment you will need:
-1. Python 3.x
-2. Whoosh module
-3. CherryPy module
-4. BeautifulSoup module 
-5. PyMongo module
-6. MongoDB database
+- Python 3.x
+- Whoosh module
+- CherryPy module
+- BeautifulSoup module 
+- PyMongo module
+- MongoDB database
 
-Installation
-------------
-<code>/data/db.conf</code>
-- should contain one line of mongodb access data in format: mongodb://USER:PASS@SITE:PORT/DB_NAME
+h2. Installation
 
-<code>/data/sites.conf</code>
-- list of sites from we are going to crawl inner links with additional sites information
-- one line contains triplet [URL INNER_LINKS_FILTER NAME] where:
-URL is sites url
-INNER_LINKS_FILTER is used for filtering out cross-domain or other irrelevant inner links
-NAME is used for identifying site
+<pre><code>/data/db.conf</code></pre>
+Should contain one line of mongodb access data in format: mongodb://USER:PASS@SITE:PORT/DB_NAME
 
-<code>/data/regex.conf</code>
-- list of regular expressions that will be used for finding out video data
-- one line contains pair [TAG URL_REGEX] where:
-TAG specifies tags from which we are going to crawl video data
-URL_REGEX is regular expression for finding out video data
-e.g.: input http://embed.ted.com/talks/.*\.html
+<pre><code>/data/sites.conf</code></pre>
+List of sites from we are going to crawl inner links with additional sites information. One line contains triplet [URL INNER_LINKS_FILTER NAME] where:
+- URL is sites url
+- INNER_LINKS_FILTER is used for filtering out cross-domain or other irrelevant inner links
+- NAME is used for identifying site
 
-Usage
--------
+<pre><code>/data/regex.conf</code></pre>
+List of regular expressions that will be used for finding out video data. One line contains pair [TAG URL_REGEX] where:
+- TAG specifies tags from which we are going to crawl video data
+- URL_REGEX is regular expression for finding out video data
+- e.g.: input http://embed.ted.com/talks/.*\.html
+
+h2. Usage
+
 Web crawling can be started with miner.py script:
 python crawler/miner.py
 
 Search can be executed through web GUI or by query class from search module:
-<code>from search import Query
+<pre><code>
+from search import Query
 query = search.Query()
-query.search_term("internet")</code>
+query.search_term("internet")
+</code></pre>
