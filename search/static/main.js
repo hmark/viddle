@@ -4,9 +4,10 @@ $(document).ready(function(){
     if (term != "")
         $(".searchfield").val(term);
 
-    console.log("hide")
     //$('.video').hide();
     $('.button').click(toggleVideo);
+
+    decodeSearchString();
 });
 
 function getUrlVars(){
@@ -33,4 +34,12 @@ function toggleVideo(){
     }
 
     video.slideToggle("slow")
+}
+
+function decodeSearchString(){
+    var field = $(".searchfield");
+    var encoded = field.val();
+    field.val(decodeURIComponent(encoded.replace(/\+/g,  " ")));
+
+     console.log("test", field, encoded, field.text)
 }
