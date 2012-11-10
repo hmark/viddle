@@ -4,32 +4,32 @@ Web video syndicator.
 
 h2. Changelog
 
-h3. 0.6
+h3. v0.6
 
 minor change of scoring algorithm
 slovak docs
 
-h3. 0.5
+h3. v0.5
 
 extended list of supported sites and video players
 multiple videos per page functionality
 
-h3. 0.4
+h3. v0.4
 
 results pagination
 video templates
 
-h3. 0.3
+h3. v0.3
 
 embedded video output
 tag words
 
-h3. 0.2
+h3. v0.2
 
 slovak text search support
 cherrypy web framework integration
 
-h3. 0.1
+h3. v0.1
 
 web crawling
 data parsering
