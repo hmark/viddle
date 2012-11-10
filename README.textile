@@ -22,7 +22,7 @@ video templates
 h3. v0.3
 
 embedded video output
-tag words
+tags
 
 h3. v0.2
 
@@ -31,8 +31,8 @@ cherrypy web framework integration
 
 h3. v0.1
 
-web crawling
-data parsering
+web crawler
+data parser
 basic whoosh indexing and search engine
 
 h2. Docs
