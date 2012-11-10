@@ -46,6 +46,11 @@ class Query:
 		return data, results_len
 
 	def create_taglist(self, tags):
+		"""Returns processed tags by replacing special characters and removing short words.
+		
+		:param tags: list of tags
+		"""
+
 		taglist = []
 		for tag in tags:
 			if len(tag[0]) > 3 and not re.match(r"[0-9]", tag[0]):
