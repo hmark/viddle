@@ -1,6 +1,6 @@
 data
+test
 crawler/__pycache__
 search/__pycache__
 search/tmp
 conf/db.conf
-conf/scripts/
