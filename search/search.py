@@ -28,9 +28,18 @@ class Query:
 		SCORE_LIMIT = 6
 
 		data = []
+
 		with self.whoosh.index.searcher() as s:
+
+			# get number of results (TODO: remove and found optimal solution)
+			results_len = 0
+			results = s.search(query)
+			for result in results:
+				if result.score > SCORE_LIMIT:
+					results_len += 1
+		
 			results = s.search_page(query, page, pagelen=5)
-			results_len = len(results)
+			#results_len = len(results)
 
 			for result in results:
 				tags = s.key_terms([result.docnum], "body", 5)
@@ -38,10 +47,6 @@ class Query:
 
 				if result.score > SCORE_LIMIT:
 					data.append([str(result["url"]), str(result["name"]), "%.2f" % (result.score - SCORE_LIMIT), set(result["video"]), taglist, result["player"]])
-
-		data_len = len(data)
-		if data_len != 5 and page == 1:
-			results_len = data_len
 
 		return data, results_len
 
