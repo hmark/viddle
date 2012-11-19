@@ -33,7 +33,7 @@ class Query:
 
 			# get number of results (TODO: remove and found optimal solution)
 			results_len = 0
-			results = s.search(query)
+			results = s.search(query, limit=None)
 			for result in results:
 				if result.score > SCORE_LIMIT:
 					results_len += 1
