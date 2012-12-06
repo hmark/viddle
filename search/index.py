@@ -21,3 +21,9 @@ class Whoosh:
 
 		pathname = os.path.dirname(__file__) + "/../data/index"
 		self.index = open_dir(pathname)
+
+	def close(self):
+		"""Close index.
+		"""
+
+		self.index.close()

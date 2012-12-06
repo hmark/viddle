@@ -2,6 +2,8 @@
 """
 
 import sys
+import index
+from whoosh.qparser import MultifieldParser
 import cherrypy
 import search
 from mako.template import Template
@@ -42,7 +44,7 @@ class RootPage(object):
 		page = int(page)
 		if term != None: # if term is empty then skip search query
 			query = search.Query()
-			data, results_num = query.search_term(term, page)
+			data, results_num = query.search_term(searcher, parser, term, page)
 			pages = math.ceil(results_num / 5)
 
 		return tmpl.render_unicode(term=term, data=data, length=results_num, newest=query.get_newest(5), help=False, page=page, pages=pages)
@@ -60,10 +62,12 @@ class RootPage(object):
 
 dirname = os.path.dirname(__file__)
 
-CONFIG = dirname + '/conf/dev.conf'
-#CONFIG = dirname + '/conf/prod.conf'
+#CONFIG = dirname + '/conf/dev.conf'
+CONFIG = dirname + '/conf/prod.conf'
 
 tmpl_lookup = TemplateLookup(directories=[dirname + '/templates'], module_directory=dirname + '/tmp/mako_modules', input_encoding='utf-8', output_encoding='utf-8')
-
+whoosh = index.Whoosh()
+parser = MultifieldParser(["title", "body"], schema=whoosh.index.schema)
+searcher = whoosh.index.searcher() 
 
 cherrypy.quickstart(RootPage(), '/', CONFIG)

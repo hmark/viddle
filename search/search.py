@@ -1,16 +1,15 @@
 """This module contains index search functionality.
 """
 
-import index
 import dbase
 import re
-from whoosh.qparser import MultifieldParser
+
 
 class Query:
 	"""Index search is based on queries. Query finds out indexed data based on term.
 	"""
 
-	def search_term(self, term, page):
+	def search_term(self, searcher, parser, term, page):
 		"""Term-based index search. Page length is 5.
 		Words which are shorter than 3 characters and words with numbers are ignored.
 		Search results contains score which is based on inverted index. 
@@ -22,31 +21,29 @@ class Query:
 		:param page: results are filtered by this specified page
 		"""
 
-		self.whoosh = index.Whoosh()
-		parser = MultifieldParser(["title", "body"], schema=self.whoosh.index.schema)
 		query = parser.parse(term)
 		SCORE_LIMIT = 6
 
 		data = []
 
-		with self.whoosh.index.searcher() as s:
+		#with whoosh.index.searcher() as s:
 
-			# get number of results (TODO: remove and found optimal solution)
-			results_len = 0
-			results = s.search(query, limit=None)
-			for result in results:
-				if result.score > SCORE_LIMIT:
-					results_len += 1
-		
-			results = s.search_page(query, page, pagelen=5)
-			#results_len = len(results)
+		# get number of results (TODO: remove and found optimal solution)
+		results_len = 0
+		results = searcher.search(query, limit=None)
+		for result in results:
+			if result.score > SCORE_LIMIT:
+				results_len += 1
+	
+		results = searcher.search_page(query, page, pagelen=5)
+		#results_len = len(results)
 
-			for result in results:
-				tags = s.key_terms([result.docnum], "body", 5)
-				taglist = self.create_taglist(tags)
+		for result in results:
+			tags = searcher.key_terms([result.docnum], "body", 5)
+			taglist = self.create_taglist(tags)
 
-				if result.score > SCORE_LIMIT:
-					data.append([str(result["url"]), str(result["name"]), "%.2f" % (result.score - SCORE_LIMIT), set(result["video"]), taglist, result["player"]])
+			if result.score > SCORE_LIMIT:
+				data.append([str(result["url"]), str(result["name"]), "%.2f" % (result.score - SCORE_LIMIT), set(result["video"]), taglist, result["player"]])
 
 		return data, results_len
 
