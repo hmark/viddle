@@ -4,7 +4,7 @@ $(document).ready(function(){
     if (term != "")
         $(".searchfield").val(term);
 
-    //$('.video').hide();
+    $('.video').hide();
     $('.button').click(toggleVideo);
 
     decodeSearchString();
